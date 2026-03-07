@@ -23,9 +23,9 @@
 
     <!-- Tibia point of rotation: hip_tibia joint origin in hip_2 frame (meters). Change these to move where the tibia rotates. -->
     <xacro:property name="tibia_joint_origin_x" value="0.0"/>
-    <xacro:property name="tibia_joint_origin_y" value="0.0"/>
-    <xacro:property name="tibia_joint_origin_z_right" value="0.05"/>
-    <xacro:property name="tibia_joint_origin_z_left" value="-0.05"/>
+    <xacro:property name="tibia_joint_origin_y" value="-0.055"/>
+    <xacro:property name="tibia_joint_origin_z_right" value="0.0"/>
+    <xacro:property name="tibia_joint_origin_z_left" value="0.0"/>
 
     <!-- Hip_1 (L1A) - dimensions, CoM and inertia from CAD; box centered at link (joint) origin -->
     <xacro:property name="hip_1_length" value="0.09903"/>
@@ -34,9 +34,11 @@
     <xacro:property name="hip_1_origin_x" value="0.0"/>
     <xacro:property name="hip_1_origin_y" value="0.0"/>
     <xacro:property name="hip_1_origin_z" value="0.0"/>
+    <xacro:property name="hip_1_rpy" value="0 1.5707963 1.5707963"/>
     <xacro:property name="hip_1_half_length" value="0.049515"/>
+    <xacro:property name="hip_1_half_width" value="0.06315"/>
     <xacro:property name="hip_1_mass" value="0.1812"/>
-    <xacro:property name="hip_1_com_x" value="0.007169"/>
+    <xacro:property name="hip_1_com_x" value="${0.007169 + hip_1_half_width}"/>
     <xacro:property name="hip_1_com_y" value="0.04754"/>
     <xacro:property name="hip_1_com_z" value="0.0"/>
     <xacro:property name="hip_1_ixx" value="3.429E-04"/>
@@ -53,6 +55,7 @@
     <xacro:property name="hip_2_origin_x" value="0.0"/>
     <xacro:property name="hip_2_origin_y" value="0.0"/>
     <xacro:property name="hip_2_origin_z" value="0.0"/>
+    <xacro:property name="hip_2_rpy" value="0 1.5707963 1.5707963"/>
     <xacro:property name="hip_2_half_length" value="0.039765"/>
     <xacro:property name="hip_2_mass" value="0.2326"/>
     <xacro:property name="hip_2_com_x" value="-0.03748"/>
@@ -186,14 +189,14 @@
 
     <link name="rear_right_hip_1">
         <visual>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x + hip_1_half_width} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x + hip_1_half_width} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
@@ -221,7 +224,7 @@
         <origin xyz="-0.3 -0.15 0.0" rpy="1.5707963 0.0 0.0"/>
         <parent link="base_link"/>
         <child link="rear_right_hip_1"/>
-        <axis xyz="0 0 1"/>
+        <axis xyz="1 0 0"/>
         <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0"/>
         <dynamics damping="0.1" friction="0.1"/>
     </joint>
@@ -234,14 +237,14 @@
 
     <link name="rear_right_hip_2">
         <visual>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
@@ -265,10 +268,13 @@
         <selfCollide>false</selfCollide>
     </gazebo>
 
-    <joint name="rear_right_hip_1_hip_2_joint" type="fixed">
-        <origin xyz="${hip_1_half_length} 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <joint name="rear_right_hip_1_hip_2_joint" type="revolute">
+        <origin xyz="${2 * hip_1_half_width} 0.0 0.0" rpy="0.0 0.0 0.0"/>
         <parent link="rear_right_hip_1"/>
         <child link="rear_right_hip_2"/>
+        <axis xyz="0.0 0.0 1.0"/>
+        <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0"/>
+        <dynamics damping="0.1" friction="0.1"/>
     </joint>
 
     <link name="rear_right_tibia">
@@ -304,13 +310,10 @@
         <selfCollide>false</selfCollide>
     </gazebo>
 
-    <joint name="rear_right_hip_tibia_joint" type="revolute">
+    <joint name="rear_right_hip_tibia_joint" type="fixed">
         <origin xyz="${tibia_joint_origin_x} ${tibia_joint_origin_y} ${tibia_joint_origin_z_right}" rpy="0.0 0.0 -1.5707963"/>
         <parent link="rear_right_hip_2"/>
         <child link="rear_right_tibia"/>
-        <axis xyz="0.0 0.0 1.0"/>
-        <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0"/>
-        <dynamics damping="0.1" friction="0.1"/>
     </joint>
 
     <!-- Gazebo properties for rear_right_hip_tibia_joint -->
@@ -420,14 +423,14 @@
 
     <link name="rear_left_hip_1">
         <visual>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x + hip_1_half_width} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x + hip_1_half_width} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
@@ -455,7 +458,7 @@
         <origin xyz="-0.3 0.15 0.0" rpy="1.5707963 0.0 0.0"/>
         <parent link="base_link"/>
         <child link="rear_left_hip_1"/>
-        <axis xyz="0 0 1"/>
+        <axis xyz="1 0 0"/>
         <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0"/>
         <dynamics damping="0.1" friction="0.1"/>
     </joint>
@@ -468,14 +471,14 @@
 
     <link name="rear_left_hip_2">
         <visual>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
@@ -499,10 +502,13 @@
         <selfCollide>false</selfCollide>
     </gazebo>
 
-    <joint name="rear_left_hip_1_hip_2_joint" type="fixed">
-        <origin xyz="${hip_1_half_length} 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <joint name="rear_left_hip_1_hip_2_joint" type="revolute">
+        <origin xyz="${2 * hip_1_half_width} 0.0 0.0" rpy="0.0 0.0 0.0"/>
         <parent link="rear_left_hip_1"/>
         <child link="rear_left_hip_2"/>
+        <axis xyz="0.0 0.0 1.0"/>
+        <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0"/>
+        <dynamics damping="0.1" friction="0.1"/>
     </joint>
 
     <link name="rear_left_tibia">
@@ -538,13 +544,10 @@
         <selfCollide>false</selfCollide>
     </gazebo>
 
-    <joint name="rear_left_hip_tibia_joint" type="revolute">
+    <joint name="rear_left_hip_tibia_joint" type="fixed">
         <origin xyz="${tibia_joint_origin_x} ${tibia_joint_origin_y} ${tibia_joint_origin_z_left}" rpy="0.0 0.0 -1.5707963"/>
         <parent link="rear_left_hip_2"/>
         <child link="rear_left_tibia"/>
-        <axis xyz="0.0 0.0 1.0"/>
-        <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0"/>
-        <dynamics damping="0.1" friction="0.1"/>
     </joint>
 
     <!-- Gazebo properties for rear_left_hip_tibia_joint -->
@@ -654,14 +657,14 @@
 
     <link name="front_right_hip_1">
         <visual>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x + hip_1_half_width} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x + hip_1_half_width} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
@@ -689,7 +692,7 @@
         <origin xyz="0.1 -0.15 0.0" rpy="1.5707963 0.0 0.0"/>
         <parent link="base_link"/>
         <child link="front_right_hip_1"/>
-        <axis xyz="0 0 1"/>
+        <axis xyz="1 0 0"/>
         <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0"/>
         <dynamics damping="0.1" friction="0.1"/>
     </joint>
@@ -702,14 +705,14 @@
 
     <link name="front_right_hip_2">
         <visual>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
@@ -733,10 +736,13 @@
         <selfCollide>false</selfCollide>
     </gazebo>
 
-    <joint name="front_right_hip_1_hip_2_joint" type="fixed">
-        <origin xyz="${hip_1_half_length} 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <joint name="front_right_hip_1_hip_2_joint" type="revolute">
+        <origin xyz="${2 * hip_1_half_width} 0.0 0.0" rpy="0.0 0.0 0.0"/>
         <parent link="front_right_hip_1"/>
         <child link="front_right_hip_2"/>
+        <axis xyz="0.0 0.0 1.0"/>
+        <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0"/>
+        <dynamics damping="0.1" friction="0.1"/>
     </joint>
 
     <link name="front_right_tibia">
@@ -772,13 +778,10 @@
         <selfCollide>false</selfCollide>
     </gazebo>
 
-    <joint name="front_right_hip_tibia_joint" type="revolute">
+    <joint name="front_right_hip_tibia_joint" type="fixed">
         <origin xyz="${tibia_joint_origin_x} ${tibia_joint_origin_y} ${tibia_joint_origin_z_right}" rpy="0.0 0.0 -1.5707963"/>
         <parent link="front_right_hip_2"/>
         <child link="front_right_tibia"/>
-        <axis xyz="0.0 0.0 1.0"/>
-        <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0"/>
-        <dynamics damping="0.1" friction="0.1"/>
     </joint>
 
     <!-- Gazebo properties for front_right_hip_tibia_joint -->
@@ -888,14 +891,14 @@
 
     <link name="front_left_hip_1">
         <visual>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x + hip_1_half_width} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x + hip_1_half_width} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
@@ -923,7 +926,7 @@
         <origin xyz="0.1 0.15 0.0" rpy="1.5707963 0.0 0.0"/>
         <parent link="base_link"/>
         <child link="front_left_hip_1"/>
-        <axis xyz="0 0 1"/>
+        <axis xyz="1 0 0"/>
         <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0"/>
         <dynamics damping="0.1" friction="0.1"/>
     </joint>
@@ -936,14 +939,14 @@
 
     <link name="front_left_hip_2">
         <visual>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
@@ -967,10 +970,13 @@
         <selfCollide>false</selfCollide>
     </gazebo>
 
-    <joint name="front_left_hip_1_hip_2_joint" type="fixed">
-        <origin xyz="${hip_1_half_length} 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <joint name="front_left_hip_1_hip_2_joint" type="revolute">
+        <origin xyz="${2 * hip_1_half_width} 0.0 0.0" rpy="0.0 0.0 0.0"/>
         <parent link="front_left_hip_1"/>
         <child link="front_left_hip_2"/>
+        <axis xyz="0.0 0.0 1.0"/>
+        <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0"/>
+        <dynamics damping="0.1" friction="0.1"/>
     </joint>
 
     <link name="front_left_tibia">
@@ -1006,13 +1012,10 @@
         <selfCollide>false</selfCollide>
     </gazebo>
 
-    <joint name="front_left_hip_tibia_joint" type="revolute">
+    <joint name="front_left_hip_tibia_joint" type="fixed">
         <origin xyz="${tibia_joint_origin_x} ${tibia_joint_origin_y} ${tibia_joint_origin_z_left}" rpy="0.0 0.0 -1.5707963"/>
         <parent link="front_left_hip_2"/>
         <child link="front_left_tibia"/>
-        <axis xyz="0.0 0.0 1.0"/>
-        <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0"/>
-        <dynamics damping="0.1" friction="0.1"/>
     </joint>
 
     <!-- Gazebo properties for front_left_hip_tibia_joint -->
