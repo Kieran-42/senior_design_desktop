@@ -29,7 +29,6 @@ rear_right_leg_controller:
   ros__parameters:
     joints:
       - rear_right_base_hip_joint
-      - rear_right_hip_tibia_joint
       - rear_right_tibia_paw_joint
     interface_name: position
 
@@ -37,7 +36,6 @@ rear_left_leg_controller:
   ros__parameters:
     joints:
       - rear_left_base_hip_joint
-      - rear_left_hip_tibia_joint
       - rear_left_tibia_paw_joint
     interface_name: position
 
@@ -45,7 +43,6 @@ front_right_leg_controller:
   ros__parameters:
     joints:
       - front_right_base_hip_joint
-      - front_right_hip_tibia_joint
       - front_right_tibia_paw_joint
     interface_name: position
 
@@ -53,7 +50,6 @@ front_left_leg_controller:
   ros__parameters:
     joints:
       - front_left_base_hip_joint
-      - front_left_hip_tibia_joint
       - front_left_tibia_paw_joint
     interface_name: position
 
