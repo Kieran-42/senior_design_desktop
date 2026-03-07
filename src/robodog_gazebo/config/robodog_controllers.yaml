@@ -1,0 +1,67 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    # Leg controllers - rear right
+    rear_right_leg_controller:
+      type: position_controllers/JointGroupPositionController
+
+    # Leg controllers - rear left
+    rear_left_leg_controller:
+      type: position_controllers/JointGroupPositionController
+
+    # Leg controllers - front right
+    front_right_leg_controller:
+      type: position_controllers/JointGroupPositionController
+
+    # Leg controllers - front left
+    front_left_leg_controller:
+      type: position_controllers/JointGroupPositionController
+
+    # Wheel controllers
+    wheel_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+rear_right_leg_controller:
+  ros__parameters:
+    joints:
+      - rear_right_base_hip_joint
+      - rear_right_hip_tibia_joint
+      - rear_right_tibia_paw_joint
+    interface_name: position
+
+rear_left_leg_controller:
+  ros__parameters:
+    joints:
+      - rear_left_base_hip_joint
+      - rear_left_hip_tibia_joint
+      - rear_left_tibia_paw_joint
+    interface_name: position
+
+front_right_leg_controller:
+  ros__parameters:
+    joints:
+      - front_right_base_hip_joint
+      - front_right_hip_tibia_joint
+      - front_right_tibia_paw_joint
+    interface_name: position
+
+front_left_leg_controller:
+  ros__parameters:
+    joints:
+      - front_left_base_hip_joint
+      - front_left_hip_tibia_joint
+      - front_left_tibia_paw_joint
+    interface_name: position
+
+wheel_controller:
+  ros__parameters:
+    joints:
+      - rear_right_paw_wheel_joint
+      - rear_left_paw_wheel_joint
+      - front_right_paw_wheel_joint
+      - front_left_paw_wheel_joint
+    interface_name: velocity

@@ -1,0 +1,41 @@
+# ROS 2 build and log directories
+build/
+install/
+log/
+
+# Colcon custom files
+COLCON_IGNORE
+AMENT_IGNORE
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyd
+*.so
+
+# Generated documentation
+*.dox
+*.wikidoc
+
+# CMake artifacts
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+
+# IDE specific files
+.project
+.cproject
+*.user
+qtcreator-*
+*.autosave
+.vscode/
+.idea/
+
+# Temporary and backup files
+*~
+.#*
+
