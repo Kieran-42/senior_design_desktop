@@ -34,6 +34,8 @@
     <xacro:property name="hip_1_origin_x" value="0.0"/>
     <xacro:property name="hip_1_origin_y" value="0.0"/>
     <xacro:property name="hip_1_origin_z" value="0.0"/>
+    <!-- Added rotation to correct visual alignment without changing inertial values -->
+    <xacro:property name="hip_1_rpy" value="0.0 0.0 1.5707963"/>
     <xacro:property name="hip_1_half_length" value="0.049515"/>
     <xacro:property name="hip_1_mass" value="0.1812"/>
     <xacro:property name="hip_1_com_x" value="0.007169"/>
@@ -53,6 +55,8 @@
     <xacro:property name="hip_2_origin_x" value="0.0"/>
     <xacro:property name="hip_2_origin_y" value="0.0"/>
     <xacro:property name="hip_2_origin_z" value="0.0"/>
+    <!-- Set to 45 degrees (0.785398 rad) for testing -->
+    <xacro:property name="hip_2_rpy" value="0.0 0.0 0.0"/>
     <xacro:property name="hip_2_half_length" value="0.039765"/>
     <xacro:property name="hip_2_mass" value="0.2326"/>
     <xacro:property name="hip_2_com_x" value="-0.03748"/>
@@ -186,14 +190,14 @@
 
     <link name="rear_right_hip_1">
         <visual>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
@@ -234,14 +238,14 @@
 
     <link name="rear_right_hip_2">
         <visual>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
@@ -420,14 +424,14 @@
 
     <link name="rear_left_hip_1">
         <visual>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
@@ -468,14 +472,14 @@
 
     <link name="rear_left_hip_2">
         <visual>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
@@ -654,14 +658,14 @@
 
     <link name="front_right_hip_1">
         <visual>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
@@ -702,14 +706,14 @@
 
     <link name="front_right_hip_2">
         <visual>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
@@ -888,14 +892,14 @@
 
     <link name="front_left_hip_1">
         <visual>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}"/>
+            <origin xyz="${hip_1_origin_x} ${hip_1_origin_y} ${hip_1_origin_z}" rpy="${hip_1_rpy}"/>
             <geometry>
                 <box size="${hip_1_length} ${hip_1_width} ${hip_1_height}"/>
             </geometry>
@@ -936,14 +940,14 @@
 
     <link name="front_left_hip_2">
         <visual>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
             <material name="hip_color"/>
         </visual>
         <collision>
-            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}"/>
+            <origin xyz="${hip_2_origin_x} ${hip_2_origin_y} ${hip_2_origin_z}" rpy="${hip_2_rpy}"/>
             <geometry>
                 <box size="${hip_2_length} ${hip_2_width} ${hip_2_height}"/>
             </geometry>
