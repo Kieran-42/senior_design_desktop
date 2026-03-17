@@ -42,23 +42,24 @@ def generate_launch_description():
         arguments=["joint_state_broadcaster"],
     )
 
-    wheel_controller = Node(
+    diff_drive_controller = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["wheel_controller"],
+        arguments=["diff_drive_controller"],
     )
 
-    # Create one spawner for each leg controller
-    leg_spawners = [
-        Node(package="controller_manager", executable="spawner", arguments=[f"{side}_leg_controller"])
-        for side in ["rear_right", "rear_left", "front_right", "front_left"]
-    ]
+    # Start with just one leg controller for testing
+    rear_right_leg = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["rear_right_leg_controller"],
+    )
 
     return LaunchDescription([
         robot_state_publisher,
         gazebo,
         spawn_robot,
         joint_state_broadcaster,
-        wheel_controller,
-        *leg_spawners
+        diff_drive_controller,
+        rear_right_leg,
     ])
