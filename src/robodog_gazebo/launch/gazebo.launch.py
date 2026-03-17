@@ -59,11 +59,29 @@ def generate_launch_description():
         arguments=["diff_drive_controller"],
     )
 
-    # Start with just one leg controller for testing
+    # Leg controller spawners
     rear_right_leg = Node(
         package="controller_manager",
         executable="spawner",
         arguments=["rear_right_leg_controller"],
+    )
+
+    rear_left_leg = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["rear_left_leg_controller"],
+    )
+
+    front_right_leg = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["front_right_leg_controller"],
+    )
+
+    front_left_leg = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["front_left_leg_controller"],
     )
 
     return LaunchDescription([
@@ -74,4 +92,7 @@ def generate_launch_description():
         joint_state_broadcaster,
         diff_drive_controller,
         rear_right_leg,
+        rear_left_leg,
+        front_right_leg,
+        front_left_leg,
     ])
