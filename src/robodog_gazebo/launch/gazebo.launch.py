@@ -17,7 +17,10 @@ def generate_launch_description():
         package='robot_state_publisher',
         executable='robot_state_publisher',
         output='screen',
-        parameters=[{'robot_description': Command(['xacro ', urdf_path])}]
+        parameters=[{
+            'robot_description': Command(['xacro ', urdf_path]),
+            'use_sim_time': True
+        }]
     )
 
     # 2. Launch Gazebo Harmonic (gz_sim)
@@ -35,7 +38,15 @@ def generate_launch_description():
         output='screen',
     )
 
-    # 4. Spawners for ros2_control (These will now find the service once Gazebo starts)
+    # 4. Bridge Gazebo clock to ROS 2
+    clock_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+        output='screen',
+    )
+
+    # 5. Spawners for ros2_control
     joint_state_broadcaster = Node(
         package="controller_manager",
         executable="spawner",
@@ -59,6 +70,7 @@ def generate_launch_description():
         robot_state_publisher,
         gazebo,
         spawn_robot,
+        clock_bridge,
         joint_state_broadcaster,
         diff_drive_controller,
         rear_right_leg,
