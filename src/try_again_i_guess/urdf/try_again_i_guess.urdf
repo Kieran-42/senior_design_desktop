@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="try_again_i_guess">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.837491492139643 -0.972075564965408 1.16249858131939"
+        rpy="0 0 0" />
+      <mass
+        value="2.08362654858377" />
+      <inertia
+        ixx="0.0301960878113478"
+        ixy="2.26221888530585E-18"
+        ixz="-3.75267730633379E-10"
+        iyy="0.00535275266306519"
+        iyz="-2.31046346684137E-07"
+        izz="0.0345230243527963" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="front_right_hip">
+    <inertial>
+      <origin
+        xyz="0.00596820108282792 -1.01124529860996E-08 0.0786652074201607"
+        rpy="0 0 0" />
+      <mass
+        value="0.0682835197174219" />
+      <inertia
+        ixx="0.000107578043739037"
+        ixy="2.86998710912503E-11"
+        ixz="1.72663649384204E-05"
+        iyy="0.000149860310883397"
+        iyz="1.7495454172755E-11"
+        izz="0.000119194202449452" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_right_hip.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_right_hip.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_FR1"
+    type="continuous">
+    <origin
+      xyz="0.938841492139661 -0.735851710589763 1.12887994406759"
+      rpy="1.5707963267949 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_right_hip" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="front_right_upperleg">
+    <inertial>
+      <origin
+        xyz="0.00998407447714422 -0.0223613255755287 0.00496781582679107"
+        rpy="0 0 0" />
+      <mass
+        value="0.254098162864815" />
+      <inertia
+        ixx="0.000293567664209762"
+        ixy="-3.54375139435133E-07"
+        ixz="1.26797191503931E-07"
+        iyy="0.000209119528586515"
+        iyz="-1.77613973143383E-07"
+        izz="0.000253159715027042" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_right_upperleg.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_right_upperleg.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_FR2"
+    type="continuous">
+    <origin
+      xyz="0 0 0.05"
+      rpy="0 0 0" />
+    <parent
+      link="front_right_hip" />
+    <child
+      link="front_right_upperleg" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="front_right_lowerleg">
+    <inertial>
+      <origin
+        xyz="0.00313707084104298 -0.113584537630757 -0.0424962734293496"
+        rpy="0 0 0" />
+      <mass
+        value="0.228830429407258" />
+      <inertia
+        ixx="0.000231457353093082"
+        ixy="-5.81151335080877E-09"
+        ixz="5.80526485008024E-09"
+        iyy="0.000106373345471365"
+        iyz="-1.13763339387154E-05"
+        izz="0.000209650487515167" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_right_lowerleg.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_right_lowerleg.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_FR3"
+    type="continuous">
+    <origin
+      xyz="0 -0.179378082493681 0.00500000000132195"
+      rpy="0 0 0" />
+    <parent
+      link="front_right_upperleg" />
+    <child
+      link="front_right_lowerleg" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="front_right_wheel">
+    <inertial>
+      <origin
+        xyz="0.0653896558154292 -1.38246203373882E-09 1.76539249885366E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.433565938227583" />
+      <inertia
+        ixx="0.000591822035099486"
+        ixy="8.32921249512161E-12"
+        ixz="-1.07089675469334E-11"
+        iyy="0.000403821347600149"
+        iyz="3.26475155808562E-11"
+        izz="0.000403821287061979" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_right_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_right_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_FR4"
+    type="continuous">
+    <origin
+      xyz="0.027541 -0.16 0"
+      rpy="0 0 0" />
+    <parent
+      link="front_right_lowerleg" />
+    <child
+      link="front_right_wheel" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="back_right_hip">
+    <inertial>
+      <origin
+        xyz="0.00596820174941037 -1.03465580547635E-08 0.0786652080445776"
+        rpy="0 0 0" />
+      <mass
+        value="0.06828352187583" />
+      <inertia
+        ixx="0.000107578045766239"
+        ixy="2.87306283017312E-11"
+        ixz="1.7266363795163E-05"
+        iyy="0.000149860313070913"
+        iyz="1.73076976795885E-11"
+        izz="0.000119194204928831" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_right_hip.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_right_hip.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_BR1"
+    type="continuous">
+    <origin
+      xyz="0.938841492139661 -1.03585171058983 1.12887994406759"
+      rpy="1.5707963267949 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="back_right_hip" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="back_right_upperleg">
+    <inertial>
+      <origin
+        xyz="0.00998407455990225 -0.0221112390102158 0.00497407406201256"
+        rpy="0 0 0" />
+      <mass
+        value="0.254098163006665" />
+      <inertia
+        ixx="0.000293567664041161"
+        ixy="-3.54374182334035E-07"
+        ixz="1.26797375602566E-07"
+        iyy="0.000209119528716847"
+        iyz="-1.77613926325139E-07"
+        izz="0.000253159715046793" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_right_upperleg.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_right_upperleg.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_BR2"
+    type="continuous">
+    <origin
+      xyz="0 0 0.05"
+      rpy="0 0 0" />
+    <parent
+      link="back_right_hip" />
+    <child
+      link="back_right_upperleg" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="back_right_lowerleg">
+    <inertial>
+      <origin
+        xyz="0.00313707084206749 -0.113584537634935 -0.0424962734400056"
+        rpy="0 0 0" />
+      <mass
+        value="0.228830429344515" />
+      <inertia
+        ixx="0.000231457353091744"
+        ixy="-5.81151439161659E-09"
+        ixz="5.8052619065161E-09"
+        iyy="0.000106373345468602"
+        iyz="-1.13763339381302E-05"
+        izz="0.000209650487511229" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_right_lowerleg.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_right_lowerleg.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_BR3"
+    type="continuous">
+    <origin
+      xyz="0 -0.179378082493681 0.00500000000132195"
+      rpy="0 0 0" />
+    <parent
+      link="back_right_upperleg" />
+    <child
+      link="back_right_lowerleg" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="back_right_wheel">
+    <inertial>
+      <origin
+        xyz="0.0450289300630089 -1.27669597116409E-09 1.67681291074473E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.433565950722189" />
+      <inertia
+        ixx="0.000591822040064194"
+        ixy="7.83411973935718E-12"
+        ixz="-1.02894021369263E-11"
+        iyy="0.000403821349041375"
+        iyz="3.02423575259149E-11"
+        izz="0.000403821293025627" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_right_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_right_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_BR4"
+    type="continuous">
+    <origin
+      xyz="0.027541 -0.16 0"
+      rpy="0 0 0" />
+    <parent
+      link="back_right_lowerleg" />
+    <child
+      link="back_right_wheel" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="front_left_hip">
+    <inertial>
+      <origin
+        xyz="-0.00596820174941548 1.03454134148251E-08 0.0786652080445769"
+        rpy="0 0 0" />
+      <mass
+        value="0.0682835218758296" />
+      <inertia
+        ixx="0.000107578045766238"
+        ixy="2.87306280723311E-11"
+        ixz="-1.72663637951629E-05"
+        iyy="0.000149860313070912"
+        iyz="-1.73076973646683E-11"
+        izz="0.000119194204928831" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_left_hip.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_left_hip.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_FL1"
+    type="continuous">
+    <origin
+      xyz="0.736141492139659 -0.735851710589763 1.12887994406816"
+      rpy="1.5707963267949 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_left_hip" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="front_left_upperleg">
+    <inertial>
+      <origin
+        xyz="-0.00998407455990868 -0.0221112390113303 0.00495165037227874"
+        rpy="0 0 0" />
+      <mass
+        value="0.25409816300666" />
+      <inertia
+        ixx="0.000293567664041157"
+        ixy="3.54374182333348E-07"
+        ixz="-9.6402759296397E-08"
+        iyy="0.000209119528716843"
+        iyz="-2.68800072303226E-07"
+        izz="0.000253159715046789" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_left_upperleg.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_left_upperleg.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_FL2"
+    type="continuous">
+    <origin
+      xyz="0 0 0.05"
+      rpy="0 0 0" />
+    <parent
+      link="front_left_hip" />
+    <child
+      link="front_left_upperleg" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="front_left_lowerleg">
+    <inertial>
+      <origin
+        xyz="-0.00313707084207038 -0.113584540455344 -0.042496272818598"
+        rpy="0 0 0" />
+      <mass
+        value="0.228830429344516" />
+      <inertia
+        ixx="0.000231457353091744"
+        ixy="5.80698239952246E-09"
+        ixz="-5.80606638398738E-09"
+        iyy="0.000106373346469612"
+        iyz="-1.13763375269897E-05"
+        izz="0.000209650486510219" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_left_lowerleg.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_left_lowerleg.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_FL3"
+    type="continuous">
+    <origin
+      xyz="0 -0.179378082494792 0.00500000000229572"
+      rpy="0 0 0" />
+    <parent
+      link="front_left_upperleg" />
+    <child
+      link="front_left_lowerleg" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="front_left_wheel">
+    <inertial>
+      <origin
+        xyz="-0.0450289300630079 -1.27608035249693E-09 -1.67608993351109E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.433565950722188" />
+      <inertia
+        ixx="0.000591822040064192"
+        ixy="-7.83411971939938E-12"
+        ixz="-1.02894027464766E-11"
+        iyy="0.000403821349041373"
+        iyz="-3.02423575271083E-11"
+        izz="0.000403821293025625" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_left_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/front_left_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_FL4"
+    type="continuous">
+    <origin
+      xyz="-0.027541 -0.16 0"
+      rpy="0 0 0" />
+    <parent
+      link="front_left_lowerleg" />
+    <child
+      link="front_left_wheel" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="back_left_hip">
+    <inertial>
+      <origin
+        xyz="-0.00596820174938828 1.03465618295218E-08 0.0786652080445767"
+        rpy="0 0 0" />
+      <mass
+        value="0.0682835218758282" />
+      <inertia
+        ixx="0.000107578045766237"
+        ixy="2.87306286169232E-11"
+        ixz="-1.72663637951635E-05"
+        iyy="0.00014986031307091"
+        iyz="-1.73076977034413E-11"
+        izz="0.00011919420492883" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_left_hip.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_left_hip.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_BL1"
+    type="continuous">
+    <origin
+      xyz="0.736141492139647 -1.03635171059016 1.12887994406758"
+      rpy="1.5707963267949 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="back_left_hip" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="back_left_upperleg">
+    <inertial>
+      <origin
+        xyz="-0.0099841 -0.022111 0.0049517"
+        rpy="0 0 0" />
+      <mass
+        value="0.2541" />
+      <inertia
+        ixx="0.00029357"
+        ixy="3.5437E-07"
+        ixz="-9.6403E-08"
+        iyy="0.00020912"
+        iyz="-2.688E-07"
+        izz="0.00025316" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_left_upperleg.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89412 0.89412 0.89412 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_left_upperleg.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_BL2"
+    type="continuous">
+    <origin
+      xyz="0 0 0.05"
+      rpy="0 0 0" />
+    <parent
+      link="back_left_hip" />
+    <child
+      link="back_left_upperleg" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="back_left_lowerleg">
+    <inertial>
+      <origin
+        xyz="-0.00313707084204307 -0.113584540455751 -0.0424962728174969"
+        rpy="0 0 0" />
+      <mass
+        value="0.228830429344517" />
+      <inertia
+        ixx="0.000231457353091744"
+        ixy="5.80698239946475E-09"
+        ixz="-5.80606638404945E-09"
+        iyy="0.000106373346469393"
+        iyz="-1.13763375259938E-05"
+        izz="0.000209650486510438" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_left_lowerleg.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_left_lowerleg.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_BL3"
+    type="continuous">
+    <origin
+      xyz="0 -0.179378082493594 0.0049999999981134"
+      rpy="0 0 0" />
+    <parent
+      link="back_left_upperleg" />
+    <child
+      link="back_left_lowerleg" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="back_left_wheel">
+    <inertial>
+      <origin
+        xyz="-0.045029 -1.2767E-09 -1.6772E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.43357" />
+      <inertia
+        ixx="0.00059182"
+        ixy="-7.8341E-12"
+        ixz="-1.0289E-11"
+        iyy="0.00040382"
+        iyz="-3.0242E-11"
+        izz="0.00040382" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_left_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89412 0.89412 0.89412 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://try_again_i_guess/meshes/back_left_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_BL4"
+    type="continuous">
+    <origin
+      xyz="-0.027541 -0.16 0"
+      rpy="0 0 0" />
+    <parent
+      link="back_left_lowerleg" />
+    <child
+      link="back_left_wheel" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+</robot>

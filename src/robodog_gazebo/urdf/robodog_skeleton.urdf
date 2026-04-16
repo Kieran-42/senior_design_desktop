@@ -73,7 +73,7 @@
     <xacro:property name="paw_box_width" value="0.093"/>
     <xacro:property name="paw_box_height" value="0.19"/>
     <xacro:property name="paw_box_origin_x" value="0.08"/>
-    <xacro:property name="paw_box_origin_y" value="-0.0315"/>
+    <xacro:property name="paw_box_origin_y" value="0.0315"/>
     <xacro:property name="paw_box_origin_z" value="0.0"/>
     
     <!-- Paw (L3) orientation: 90 deg about y-axis (roll pitch yaw in rad) -->
@@ -104,7 +104,7 @@
     <xacro:property name="wheel_origin_z" value="0.0"/>
     <!-- Wheel joint origin (paw frame to wheel): x along paw, z sign differs left/right -->
     <xacro:property name="wheel_joint_origin_x" value="0.175"/>
-    <xacro:property name="wheel_joint_origin_y" value="-0.0315"/>
+    <xacro:property name="wheel_joint_origin_y" value="0.0315"/>
     <xacro:property name="wheel_joint_origin_z_right" value="0.045675"/>
     <xacro:property name="wheel_joint_origin_z_left" value="-0.045675"/>
 
