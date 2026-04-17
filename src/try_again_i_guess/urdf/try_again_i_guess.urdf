@@ -86,7 +86,7 @@
   </link>
   <joint
     name="joint_FR1"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.938841492139661 -0.735851710589763 1.12887994406759"
       rpy="1.5707963267949 0 0" />
@@ -96,6 +96,8 @@
       link="front_right_hip" />
     <axis
       xyz="0 0 1" />
+    <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="front_right_upperleg">
@@ -139,7 +141,7 @@
   </link>
   <joint
     name="joint_FR2"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0 0.05"
       rpy="0 0 0" />
@@ -149,6 +151,8 @@
       link="front_right_upperleg" />
     <axis
       xyz="1 0 0" />
+    <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="front_right_lowerleg">
@@ -192,7 +196,7 @@
   </link>
   <joint
     name="joint_FR3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 -0.179378082493681 0.00500000000132195"
       rpy="0 0 0" />
@@ -202,6 +206,8 @@
       link="front_right_lowerleg" />
     <axis
       xyz="1 0 0" />
+    <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="front_right_wheel">
@@ -255,6 +261,7 @@
       link="front_right_wheel" />
     <axis
       xyz="1 0 0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="back_right_hip">
@@ -298,7 +305,7 @@
   </link>
   <joint
     name="joint_BR1"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.938841492139661 -1.03585171058983 1.12887994406759"
       rpy="1.5707963267949 0 0" />
@@ -308,6 +315,8 @@
       link="back_right_hip" />
     <axis
       xyz="0 0 1" />
+    <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="back_right_upperleg">
@@ -351,7 +360,7 @@
   </link>
   <joint
     name="joint_BR2"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0 0.05"
       rpy="0 0 0" />
@@ -361,6 +370,8 @@
       link="back_right_upperleg" />
     <axis
       xyz="1 0 0" />
+    <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="back_right_lowerleg">
@@ -404,7 +415,7 @@
   </link>
   <joint
     name="joint_BR3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 -0.179378082493681 0.00500000000132195"
       rpy="0 0 0" />
@@ -414,6 +425,8 @@
       link="back_right_lowerleg" />
     <axis
       xyz="1 0 0" />
+    <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="back_right_wheel">
@@ -467,6 +480,7 @@
       link="back_right_wheel" />
     <axis
       xyz="1 0 0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="front_left_hip">
@@ -510,7 +524,7 @@
   </link>
   <joint
     name="joint_FL1"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.736141492139659 -0.735851710589763 1.12887994406816"
       rpy="1.5707963267949 0 0" />
@@ -520,6 +534,8 @@
       link="front_left_hip" />
     <axis
       xyz="0 0 1" />
+    <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="front_left_upperleg">
@@ -563,7 +579,7 @@
   </link>
   <joint
     name="joint_FL2"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0 0.05"
       rpy="0 0 0" />
@@ -573,6 +589,8 @@
       link="front_left_upperleg" />
     <axis
       xyz="1 0 0" />
+    <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="front_left_lowerleg">
@@ -616,7 +634,7 @@
   </link>
   <joint
     name="joint_FL3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 -0.179378082494792 0.00500000000229572"
       rpy="0 0 0" />
@@ -626,6 +644,8 @@
       link="front_left_lowerleg" />
     <axis
       xyz="1 0 0" />
+    <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="front_left_wheel">
@@ -679,6 +699,7 @@
       link="front_left_wheel" />
     <axis
       xyz="1 0 0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="back_left_hip">
@@ -722,7 +743,7 @@
   </link>
   <joint
     name="joint_BL1"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.736141492139647 -1.03635171059016 1.12887994406758"
       rpy="1.5707963267949 0 0" />
@@ -732,6 +753,8 @@
       link="back_left_hip" />
     <axis
       xyz="0 0 1" />
+    <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="back_left_upperleg">
@@ -775,7 +798,7 @@
   </link>
   <joint
     name="joint_BL2"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0 0.05"
       rpy="0 0 0" />
@@ -785,6 +808,8 @@
       link="back_left_upperleg" />
     <axis
       xyz="1 0 0" />
+    <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="back_left_lowerleg">
@@ -828,7 +853,7 @@
   </link>
   <joint
     name="joint_BL3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 -0.179378082493594 0.0049999999981134"
       rpy="0 0 0" />
@@ -838,6 +863,8 @@
       link="back_left_lowerleg" />
     <axis
       xyz="1 0 0" />
+    <limit lower="-3.1415926" upper="3.1415926" effort="1000" velocity="1.0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
   <link
     name="back_left_wheel">
@@ -891,5 +918,122 @@
       link="back_left_wheel" />
     <axis
       xyz="1 0 0" />
+    <dynamics damping="0.1" friction="0.1" />
   </joint>
+
+  <!-- ROS 2 Control -->
+  <ros2_control name="GazeboSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      <param name="calculate_dynamics">true</param>
+    </hardware>
+
+    <!-- Front Right leg joints -->
+    <joint name="joint_FR1">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_FR2">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_FR3">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_FR4">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Back Right leg joints -->
+    <joint name="joint_BR1">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_BR2">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_BR3">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_BR4">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Front Left leg joints -->
+    <joint name="joint_FL1">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_FL2">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_FL3">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_FL4">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Back Left leg joints -->
+    <joint name="joint_BL1">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_BL2">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_BL3">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_BL4">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+  <!-- Gazebo Plugin -->
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find try_again_i_guess)/config/robodog_controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
 </robot>

@@ -18,6 +18,14 @@ for try_again_i_guess robot</p>
   <exec_depend>joint_state_publisher_gui</exec_depend>
   <exec_depend>rviz2</exec_depend>
 
+  <!-- Gazebo + ros2_control dependencies -->
+  <depend>ros_gz_sim</depend>
+  <depend>gz_ros2_control</depend>
+  <depend>ros_gz_bridge</depend>
+  <depend>controller_manager</depend>
+  <depend>joint_state_broadcaster</depend>
+  <depend>position_controllers</depend>
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>

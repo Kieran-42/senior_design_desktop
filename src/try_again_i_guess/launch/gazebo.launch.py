@@ -22,6 +22,12 @@ def generate_launch_description():
         'file://' + pkg_share + '/',
     )
 
+    # Resolve $(find ...) so gz_ros2_control can locate the controller YAML
+    robot_description = robot_description.replace(
+        '$(find try_again_i_guess)',
+        pkg_share,
+    )
+
     # Also tell Gz where to look for model:// URIs (install/share parent)
     gz_resource_path = os.path.dirname(pkg_share)
 
@@ -67,10 +73,46 @@ def generate_launch_description():
         output='screen',
     )
 
+    # Controller spawners
+    joint_state_broadcaster = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster"],
+    )
+
+    front_right_leg = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["front_right_leg_controller"],
+    )
+
+    front_left_leg = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["front_left_leg_controller"],
+    )
+
+    back_right_leg = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["back_right_leg_controller"],
+    )
+
+    back_left_leg = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["back_left_leg_controller"],
+    )
+
     return LaunchDescription([
         SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', gz_resource_path),
         robot_state_publisher,
         gazebo,
         spawn_robot,
         clock_bridge,
+        joint_state_broadcaster,
+        front_right_leg,
+        front_left_leg,
+        back_right_leg,
+        back_left_leg,
     ])

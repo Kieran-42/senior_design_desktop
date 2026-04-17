@@ -12,4 +12,10 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}
 )
 
+# Install gait scripts
+install(PROGRAMS
+  scripts/trotting_gait.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()
