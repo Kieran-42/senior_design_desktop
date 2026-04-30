@@ -25,7 +25,7 @@ def generate_launch_description():
         description='Model of the ZED camera'
     )
     use_zed_localization_arg = DeclareLaunchArgument(
-        'use_zed_localization', default_value='true',
+        'use_zed_localization', default_value='false',
         description='Whether to use ZED localization'
     )
 
@@ -96,14 +96,21 @@ def generate_launch_description():
         name='ros_gz_bridge',
         arguments=[
             '/world/robodog_world/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
-            '/camera/image@sensor_msgs/msg/Image[gz.msgs.Image',
-            '/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
-            '/camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
-            '/camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
-            '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
+            '/zed/zed_node/rgb/image_rect_color@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/zed/zed_node/rgb/image_rect_color/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+            '/zed/zed_node/rgb/image_rect_color/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/zed/zed_node/rgb/image_rect_color/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
+            '/zed/zed_node/right/image_rect_color@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/zed/zed_node/right/image_rect_color/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+            '/zed/zed_node/imu/data@sensor_msgs/msg/Imu[gz.msgs.IMU',
+            '/zed/zed_node/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+            '/zed/zed_node/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
         ],
         remappings=[
             ('/world/robodog_world/clock', '/clock'),
+            ('/zed/zed_node/rgb/image_rect_color/depth_image', '/zed/zed_node/depth/depth_registered'),
+            ('/zed/zed_node/rgb/image_rect_color/points', '/zed/zed_node/point_cloud/cloud_registered'),
+            ('/zed/zed_node/tf', '/tf'),
         ],
         parameters=[{'use_sim_time': True}],
         output='screen',

@@ -2,7 +2,7 @@
 <robot name="urdf_color" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:arg name="camera_name"   default="zedm" />
   <xacro:arg name="camera_model"  default="zedm" />
-  <xacro:arg name="use_zed_localization" default="true" />
+  <xacro:arg name="use_zed_localization" default="false" />
   <xacro:include filename="$(find zed_wrapper)/urdf/zed_macro.urdf.xacro" />
   <xacro:zed_camera name="$(arg camera_name)" model="$(arg camera_model)">
     <origin xyz="0 0 0" rpy="0 0 0" />
@@ -658,7 +658,7 @@
       <always_on>1</always_on>
       <update_rate>15</update_rate>
       <visualize>true</visualize>
-      <topic>zed/zed_node/left/image_rect_color</topic>
+      <topic>zed/zed_node/rgb/image_rect_color</topic>
       <gz_frame_id>$(arg camera_name)_left_camera_frame</gz_frame_id>
     </sensor>
   </gazebo>
@@ -677,7 +677,7 @@
         </clip>
       </camera>
       <always_on>1</always_on>
-      <update_rate>30</update_rate>
+      <update_rate>15</update_rate>
       <visualize>true</visualize>
       <topic>zed/zed_node/right/image_rect_color</topic>
       <gz_frame_id>$(arg camera_name)_right_camera_frame</gz_frame_id>
@@ -712,7 +712,6 @@
       <robot_base_frame>base_link</robot_base_frame>
       <odom_topic>zed/zed_node/odom</odom_topic>
       <tf_topic>zed/zed_node/tf</tf_topic>
-      <publish_odom_to_os>true</publish_odom_to_os>
     </plugin>
   </gazebo>
 
