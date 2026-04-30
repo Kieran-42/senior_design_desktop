@@ -79,16 +79,6 @@ def generate_launch_description():
         output='screen',
     )
 
-    # RViz
-    rviz_config_file = os.path.join(pkg_share, 'config', 'display.rviz')
-    rviz = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        output='screen',
-        arguments=['-d', rviz_config_file],
-        parameters=[{'use_sim_time': True}]
-    )
 
     bridge = Node(
         package='ros_gz_bridge',
@@ -96,21 +86,29 @@ def generate_launch_description():
         name='ros_gz_bridge',
         arguments=[
             '/world/robodog_world/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
-            '/zed/zed_node/rgb/image_rect_color@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/zed/zed_node/rgb/image_rect_color/image@sensor_msgs/msg/Image[gz.msgs.Image',
             '/zed/zed_node/rgb/image_rect_color/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
             '/zed/zed_node/rgb/image_rect_color/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
             '/zed/zed_node/rgb/image_rect_color/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
+            '/zed/zed_node/rgb/image_raw_color@sensor_msgs/msg/Image[gz.msgs.Image',
             '/zed/zed_node/right/image_rect_color@sensor_msgs/msg/Image[gz.msgs.Image',
             '/zed/zed_node/right/image_rect_color/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+            '/zed/zed_node/right/image_raw_color@sensor_msgs/msg/Image[gz.msgs.Image',
             '/zed/zed_node/imu/data@sensor_msgs/msg/Imu[gz.msgs.IMU',
             '/zed/zed_node/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
             '/zed/zed_node/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
+            '/model/urdf_color/pose@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V',
         ],
         remappings=[
             ('/world/robodog_world/clock', '/clock'),
+            ('/zed/zed_node/rgb/image_rect_color/image', '/zed/zed_node/rgb/image_rect_color'),
             ('/zed/zed_node/rgb/image_rect_color/depth_image', '/zed/zed_node/depth/depth_registered'),
             ('/zed/zed_node/rgb/image_rect_color/points', '/zed/zed_node/point_cloud/cloud_registered'),
+            ('/zed/zed_node/rgb/image_raw_color', '/zed/zed_node/rgb_raw/image_raw_color'),
+            ('/zed/zed_node/right/image_rect_color', '/zed/zed_node/right/image_rect_color'),
+            ('/zed/zed_node/right/image_raw_color', '/zed/zed_node/right_raw/image_raw_color'),
             ('/zed/zed_node/tf', '/tf'),
+            ('/model/urdf_color/pose', '/zed/zed_node/pose'),
         ],
         parameters=[{'use_sim_time': True}],
         output='screen',
@@ -155,7 +153,6 @@ def generate_launch_description():
         robot_state_publisher,
         gazebo,
         spawn_robot,
-        rviz,
         bridge,
         joint_state_broadcaster,
         front_right_leg,
