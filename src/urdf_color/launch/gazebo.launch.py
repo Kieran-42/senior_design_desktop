@@ -90,10 +90,10 @@ def generate_launch_description():
         parameters=[{'use_sim_time': True}]
     )
 
-    # Bridge Gazebo topics to ROS 2
     bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
+        name='ros_gz_bridge',
         arguments=[
             '/world/robodog_world/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
             '/camera/image@sensor_msgs/msg/Image[gz.msgs.Image',
@@ -105,6 +105,7 @@ def generate_launch_description():
         remappings=[
             ('/world/robodog_world/clock', '/clock'),
         ],
+        parameters=[{'use_sim_time': True}],
         output='screen',
     )
 
