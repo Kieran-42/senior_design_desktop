@@ -1,15 +1,15 @@
 import os
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from launch.substitutions import Command
 from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
     pkg_share = get_package_share_directory('urdf_color')
-    urdf_file = os.path.join(pkg_share, 'urdf', 'urdf_color.urdf')
+    xacro_file = os.path.join(pkg_share, 'urdf', 'urdf_color.urdf.xacro')
 
-    with open(urdf_file, 'r') as f:
-        robot_description = f.read()
+    robot_description_content = Command(['xacro ', xacro_file])
 
     rviz_config = os.path.join(pkg_share, 'config', 'display.rviz')
 
@@ -17,7 +17,7 @@ def generate_launch_description():
         Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',
-            parameters=[{'robot_description': robot_description}],
+            parameters=[{'robot_description': robot_description_content}],
         ),
         Node(
             package='joint_state_publisher_gui',

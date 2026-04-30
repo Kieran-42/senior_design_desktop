@@ -6,27 +6,40 @@ from launch.actions import (
 )
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
+from launch.substitutions import Command, LaunchConfiguration
+from launch.actions import DeclareLaunchArgument
 from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
     pkg_share = get_package_share_directory('urdf_color')
-    urdf_file = os.path.join(pkg_share, 'urdf', 'urdf_color.urdf')
+    xacro_file = os.path.join(pkg_share, 'urdf', 'urdf_color.urdf.xacro')
 
-    with open(urdf_file, 'r') as f:
-        robot_description = f.read()
-
-    # Resolve package:// URIs to file:// so Gazebo Harmonic can find meshes
-    robot_description = robot_description.replace(
-        'package://urdf_color/',
-        'file://' + pkg_share + '/',
+    # Launch arguments
+    camera_name_arg = DeclareLaunchArgument(
+        'camera_name', default_value='zedm',
+        description='Name of the ZED camera'
+    )
+    camera_model_arg = DeclareLaunchArgument(
+        'camera_model', default_value='zedm',
+        description='Model of the ZED camera'
+    )
+    use_zed_localization_arg = DeclareLaunchArgument(
+        'use_zed_localization', default_value='true',
+        description='Whether to use ZED localization'
     )
 
-    # Resolve $(find ...) so gz_ros2_control can locate the controller YAML
-    robot_description = robot_description.replace(
-        '$(find urdf_color)',
-        pkg_share,
-    )
+    camera_name = LaunchConfiguration('camera_name')
+    camera_model = LaunchConfiguration('camera_model')
+    use_zed_localization = LaunchConfiguration('use_zed_localization')
+
+    # Process Xacro
+    robot_description_content = Command([
+        'xacro ', xacro_file,
+        ' camera_name:=', camera_name,
+        ' camera_model:=', camera_model,
+        ' use_zed_localization:=', use_zed_localization,
+    ])
 
     # Also tell Gz where to look for model:// URIs (install/share parent)
     gz_resource_path = os.path.dirname(pkg_share)
@@ -37,7 +50,7 @@ def generate_launch_description():
         executable='robot_state_publisher',
         output='screen',
         parameters=[{
-            'robot_description': robot_description,
+            'robot_description': robot_description_content,
             'use_sim_time': True,
         }],
     )
@@ -106,6 +119,9 @@ def generate_launch_description():
 
     return LaunchDescription([
         SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', gz_resource_path),
+        camera_name_arg,
+        camera_model_arg,
+        use_zed_localization_arg,
         robot_state_publisher,
         gazebo,
         spawn_robot,

@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <robot name="urdf_color">
+  <xacro:arg name="camera_name"   default="zedm" />
+  <xacro:arg name="camera_model"  default="zedm" />
+  <xacro:arg name="use_zed_localization" default="true" />
+  <xacro:include filename="$(find zed_wrapper)/urdf/zed_macro.urdf.xacro" />
+  <xacro:zed_camera name="zedm" model="zedm"/>
+  
   <link name="base_link">
     <inertial>
       <origin xyz="0.837491492139643 -0.972075564965408 1.16249858131939" rpy="0 0 0" />
@@ -22,6 +28,32 @@
       </geometry>
     </collision>
   </link>
+
+    <!-- Add a joint to connect the ZED Camera to the robot -->
+  <xacro:if value="$(arg use_zed_localization)">
+    <!-- ZED Localization -> The reference link is '$(arg camera_name)_camera_link' and 'base_link' is a child -->
+    <joint name="$(arg camera_name)_joint" type="fixed">
+      <parent link="$(arg camera_name)_camera_link"/>
+      <child link="base_link"/>
+      <origin
+        xyz="-0.12 0.0 -0.25"
+        rpy="0 0 0"
+      />
+    </joint>
+  </xacro:if>
+  <xacro:unless value="$(arg use_zed_localization)">
+    <!-- NO ZED Localization -> '$(arg camera_name)_camera_link' is a child of 'base_link' -->
+    <joint name="$(arg camera_name)_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="$(arg camera_name)_camera_link"/>
+      <origin
+        xyz="0.12 0.0 0.25"
+        rpy="0 0 0"
+      />
+    </joint>
+  </xacro:unless>
+
+
   <link name="front_right_hip">
     <inertial>
       <origin xyz="0.00596820108282792 -1.01124529860996E-08 0.0786652074201607" rpy="0 0 0" />
