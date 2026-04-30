@@ -56,6 +56,7 @@ def generate_launch_description():
     )
 
     # Launch Gazebo Harmonic (gz_sim)
+    world_file = os.path.join(pkg_share, 'worlds', 'robodog_world.sdf')
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -63,7 +64,7 @@ def generate_launch_description():
                 'launch', 'gz_sim.launch.py',
             )
         ),
-        launch_arguments={'gz_args': '-r empty.sdf'}.items(),
+        launch_arguments={'gz_args': f'-r {world_file}'}.items(),
     )
 
     # Spawn the robot in Gazebo
@@ -78,11 +79,32 @@ def generate_launch_description():
         output='screen',
     )
 
-    # Bridge Gazebo clock to ROS 2
-    clock_bridge = Node(
+    # RViz
+    rviz_config_file = os.path.join(pkg_share, 'config', 'display.rviz')
+    rviz = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', rviz_config_file],
+        parameters=[{'use_sim_time': True}]
+    )
+
+    # Bridge Gazebo topics to ROS 2
+    bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
-        arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+        arguments=[
+            '/world/robodog_world/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
+            '/camera/image@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+            '/camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
+            '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
+        ],
+        remappings=[
+            ('/world/robodog_world/clock', '/clock'),
+        ],
         output='screen',
     )
 
@@ -125,7 +147,8 @@ def generate_launch_description():
         robot_state_publisher,
         gazebo,
         spawn_robot,
-        clock_bridge,
+        rviz,
+        bridge,
         joint_state_broadcaster,
         front_right_leg,
         front_left_leg,

@@ -10,6 +10,7 @@
 #
 
 import math
+import signal
 import time
 import numpy as np
 import rclpy
@@ -106,6 +107,8 @@ class TrottingGaitNode(Node):
     def __init__(self):
         super().__init__('trotting_gait_node')
 
+        self._stopping = False
+
         self.leg_pubs = {}
         for leg in self.LEG_NAMES:
             topic = f'/{leg}_leg_controller/commands'
@@ -125,9 +128,25 @@ class TrottingGaitNode(Node):
             f'z_ground={self.z_ground}m'
         )
 
+    def request_stop(self):
+        """Signal the node to finish its current gait cycle and stop."""
+        if not self._stopping:
+            self._stopping = True
+            self.get_logger().info('Ctrl+C received — finishing current step...')
+
     def control_callback(self):
         elapsed = time.time() - self.t0
         phase = (elapsed % self.gait_period) / self.gait_period
+
+        if self._stopping:
+            # finish the current cycle: wait until phase wraps near 0
+            # (standing pose = phase 0.25, all feet at "stand" position)
+            # publish the standing pose and shut down
+            self._publish_standing_pose()
+            self.timer.cancel()
+            self.get_logger().info('Gait stopped — legs at standing pose.')
+            raise SystemExit
+            return
 
         targets = gait_targets(phase, self.x_step, self.z_ground, self.swing_height)
 
@@ -147,25 +166,36 @@ class TrottingGaitNode(Node):
             msg.data = [0.0, q1, q2]    # [hip_abduction, upper_leg, lower_leg]
             self.leg_pubs[leg].publish(msg)
 
+    def _publish_standing_pose(self):
+        """Command all legs to the neutral standing position."""
+        stand_target = np.array([0.0, self.z_ground])
+        for leg in self.LEG_NAMES:
+            result = ik_2link(stand_target[0], stand_target[1], knee_direction=1)
+            if result is None:
+                continue
+            q1, q2 = result
+            msg = Float64MultiArray()
+            msg.data = [0.0, q1, q2]
+            self.leg_pubs[leg].publish(msg)
+
 
 def main(args=None):
-    rclpy.init(args=args)
+    rclpy.init(args=args, signal_handler_options=rclpy.SignalHandlerOptions.NO)
+
     node = TrottingGaitNode()
+
+    # handle Ctrl+C ourselves so we can finish the step before shutdown
+    signal.signal(signal.SIGINT, lambda *_: node.request_stop())
 
     try:
         rclpy.spin(node)
-    except KeyboardInterrupt:
+    except SystemExit:
         pass
     finally:
-        # zero all joints on exit
-        for leg in TrottingGaitNode.LEG_NAMES:
-            msg = Float64MultiArray()
-            msg.data = [0.0, 0.0, 0.0]
-            node.leg_pubs[leg].publish(msg)
-        node.get_logger().info('Gait stopped, joints zeroed.')
         node.destroy_node()
-        rclpy.shutdown()
+        rclpy.try_shutdown()
 
 
 if __name__ == '__main__':
     main()
+
