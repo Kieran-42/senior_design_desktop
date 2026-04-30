@@ -102,7 +102,7 @@ class MotorCommandNode(Node):
             self.leg_pubs[leg] = self.create_publisher(Float64MultiArray, topic, 10)
 
         # cmd_vel subscriber
-        self.create_subscription(Twist, '/cmd_vel', self._cmd_vel_cb, 10)
+        self.create_subscription(Twist, 'cmd_vel', self._cmd_vel_cb, 10)
 
         # latest velocity command + timestamp
         self.linear_x  = 0.0
@@ -112,6 +112,10 @@ class MotorCommandNode(Node):
         # gait phase tracking
         self.t0 = time.time()
         self.is_walking = False
+
+        # start delay to let simulation settle
+        self.start_time = time.time()
+        self.startup_delay = 3.0 # seconds
 
         # control loop
         self.timer = self.create_timer(1.0 / CONTROL_HZ, self._control_loop)
@@ -123,6 +127,7 @@ class MotorCommandNode(Node):
     # ── callbacks ──
 
     def _cmd_vel_cb(self, msg: Twist):
+        self.get_logger().info(f"Received cmd_vel: lin_x={msg.linear.x:.2f}, ang_z={msg.angular.z:.2f}")
         self.linear_x  = msg.linear.x
         self.angular_z = msg.angular.z
         self.last_cmd_time = time.time()
@@ -141,6 +146,11 @@ class MotorCommandNode(Node):
             self.timer.cancel()
             self.get_logger().info('Stopped — legs at standing pose.')
             raise SystemExit
+
+        # check if we are still in startup delay
+        if (time.time() - self.start_time) < self.startup_delay:
+            self._publish_standing_pose()
+            return
 
         # timeout: if no cmd_vel for a while, treat as zero velocity
         now = time.time()

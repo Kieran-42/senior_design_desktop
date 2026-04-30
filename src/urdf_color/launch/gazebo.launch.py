@@ -74,7 +74,7 @@ def generate_launch_description():
         arguments=[
             '-topic', 'robot_description',
             '-name', 'urdf_color',
-            '-z', '0.5',
+            '-z', '0.4',
         ],
         output='screen',
     )
@@ -96,11 +96,11 @@ def generate_launch_description():
         name='ros_gz_bridge',
         arguments=[
             '/world/robodog_world/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
-            '/zed/zed_node/rgb/image_rect_color@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/zed/zed_node/rgb/image_rect_color/image@sensor_msgs/msg/Image[gz.msgs.Image',
             '/zed/zed_node/rgb/image_rect_color/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
             '/zed/zed_node/rgb/image_rect_color/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
             '/zed/zed_node/rgb/image_rect_color/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
-            '/zed/zed_node/right/image_rect_color@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/zed/zed_node/right/image_rect_color/image@sensor_msgs/msg/Image[gz.msgs.Image',
             '/zed/zed_node/right/image_rect_color/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
             '/zed/zed_node/imu/data@sensor_msgs/msg/Imu[gz.msgs.IMU',
             '/zed/zed_node/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
@@ -108,8 +108,10 @@ def generate_launch_description():
         ],
         remappings=[
             ('/world/robodog_world/clock', '/clock'),
+            ('/zed/zed_node/rgb/image_rect_color/image', '/zed/zed_node/rgb/image_rect_color'),
             ('/zed/zed_node/rgb/image_rect_color/depth_image', '/zed/zed_node/depth/depth_registered'),
             ('/zed/zed_node/rgb/image_rect_color/points', '/zed/zed_node/point_cloud/cloud_registered'),
+            ('/zed/zed_node/right/image_rect_color/image', '/zed/zed_node/right/image_rect_color'),
             ('/zed/zed_node/tf', '/tf'),
         ],
         parameters=[{'use_sim_time': True}],

@@ -16,6 +16,7 @@ install(DIRECTORY
 # Install gait scripts
 install(PROGRAMS
   scripts/trotting_gait.py
+  scripts/motor_command.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
