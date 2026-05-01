@@ -24,9 +24,9 @@ L1 = 0.179378   # upper leg
 L2 = 0.16       # lower leg
 
 # ── gait tuning ──
-GAIT_PERIOD    = 0.2     # seconds per full walking cycle
-MAX_X_STEP     = 0.10    # max half-step length at full speed (m)
-SWING_HEIGHT   = 0.05    # foot lift during swing (m)
+GAIT_PERIOD    = 0.6     # seconds per full walking cycle
+MAX_X_STEP     = 0.15    # max half-step length at full speed (m)
+SWING_HEIGHT   = 0.10    # foot lift during swing (m)
 Z_GROUND       = -0.30   # nominal foot height below hip (m)
 
 # mapping from cmd_vel to gait parameters
