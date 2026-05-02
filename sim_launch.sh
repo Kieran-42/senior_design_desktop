@@ -36,7 +36,7 @@ echo "Clock detected!"
 # This provides the costmap/map you were missing
 tmux new-window -t $SESSION:1 -n 'SLAM'
 tmux send-keys -t $SESSION:1 "source /opt/ros/jazzy/setup.bash && source install/setup.bash" C-m
-tmux send-keys -t $SESSION:1 "ros2 launch rtabmap_launch rtabmap.launch.py rtabmap_args:=\"--delete_db_on_start --Grid/FromDepth true --Grid/RangeMax 5\" rgb_topic:=/zed/zed_node/rgb/image_rect_color depth_topic:=/zed/zed_node/depth/depth_registered camera_info_topic:=/zed/zed_node/rgb/image_rect_color/camera_info frame_id:=base_link odom_topic:=/zed/zed_node/odom visual_odometry:=false approx_sync:=true use_sim_time:=true" C-m
+tmux send-keys -t $SESSION:1 "ros2 launch rtabmap_launch rtabmap.launch.py rtabmap_args:=\"--delete_db_on_start --Grid/FromDepth true --Grid/RangeMax 5\" rgb_topic:=/zed/zed_node/rgb/image_rect_color depth_topic:=/zed/zed_node/depth/depth_registered camera_info_topic:=/zed/zed_node/rgb/image_rect_color/camera_info frame_id:=base_footprint odom_topic:=/zed/zed_node/odom visual_odometry:=false approx_sync:=true use_sim_time:=true" C-m
 
 # Window 3: Motor Command (Bridge cmd_vel to leg joints)
 tmux new-window -t $SESSION:3 -n 'MotorCmd'

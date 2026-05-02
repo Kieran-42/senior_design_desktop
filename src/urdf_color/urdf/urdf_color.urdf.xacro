@@ -8,6 +8,14 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:zed_camera>
   
+  <link name="base_footprint"/>
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <!-- Center the robot, ground it, and rotate -90 deg so X is forward -->
+    <origin xyz="0.8858 0.8375 -0.7894" rpy="0 0 -1.5708" />
+  </joint>
+
   <link name="base_link">
     <inertial>
       <origin xyz="0.837491492139643 -0.972075564965408 1.16249858131939" rpy="0 0 0" />
@@ -352,7 +360,7 @@
     <inertial>
       <origin xyz="-0.00313707084207038 -0.113584540455344 -0.042496272818598" rpy="0 0 0" />
       <mass value="0.228830429344516" />
-      <inertia ixx="0.000231457353091744" ixy="5.80698239952246E-09" ixz="-5.80606638398738E-09" iyy="0.000106373346469612" iyz="-1.13763375269897E-05" izz="0.000209650486510219" />
+      <inertia ixx="0.000231457353091744" ixy="5.80698239952246E-09" ixz="-5.80606638398738E-09" iyy="0.000106373346469612" iyz="-1.137633375269897E-05" izz="0.000209650486510219" />
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -526,14 +534,13 @@
     <axis xyz="1 0 0" />
     <dynamics damping="0.1" friction="0.1" />
   </joint>
-
-  
+ 
   <ros2_control name="GazeboSystem" type="system">
     <hardware>
       <plugin>gz_ros2_control/GazeboSimSystem</plugin>
       <param name="calculate_dynamics">true</param>
     </hardware>
-
+ 
     
     <joint name="joint_FR1">
       <command_interface name="position" />
@@ -558,7 +565,7 @@
       <state_interface name="position" />
       <state_interface name="velocity" />
     </joint>
-
+ 
     
     <joint name="joint_BR1">
       <command_interface name="position" />
@@ -583,7 +590,7 @@
       <state_interface name="position" />
       <state_interface name="velocity" />
     </joint>
-
+ 
     
     <joint name="joint_FL1">
       <command_interface name="position" />
@@ -608,7 +615,7 @@
       <state_interface name="position" />
       <state_interface name="velocity" />
     </joint>
-
+ 
     
     <joint name="joint_BL1">
       <command_interface name="position" />
@@ -634,14 +641,14 @@
       <state_interface name="velocity" />
     </joint>
   </ros2_control>
-
+ 
   
   <gazebo>
     <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>$(find urdf_color)/config/robodog_controllers.yaml</parameters>
     </plugin>
   </gazebo>
-
+ 
   <gazebo reference="$(arg camera_name)_left_camera_frame">
     <sensor name="zed_camera" type="rgbd_camera">
       <camera>
@@ -680,7 +687,7 @@
       <gz_frame_id>$(arg camera_name)_left_camera_optical_frame</gz_frame_id>
     </sensor>
   </gazebo>
-
+ 
   <gazebo reference="$(arg camera_name)_right_camera_frame">
     <sensor name="zed_camera_right" type="camera">
       <camera>
@@ -719,7 +726,7 @@
       <gz_frame_id>$(arg camera_name)_right_camera_optical_frame</gz_frame_id>
     </sensor>
   </gazebo>
-
+ 
   <gazebo reference="$(arg camera_name)_camera_center">
     <sensor name="zed_imu" type="imu">
       <imu>
@@ -741,14 +748,14 @@
       <gz_frame_id>$(arg camera_name)_camera_center</gz_frame_id>
     </sensor>
   </gazebo>
-
+ 
   <gazebo>
     <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
       <topic>zed/zed_node/joint_states</topic>
     </plugin>
     <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
       <odom_frame>odom</odom_frame>
-      <robot_base_frame>base_link</robot_base_frame>
+      <robot_base_frame>base_footprint</robot_base_frame>
       <odom_topic>zed/zed_node/odom</odom_topic>
       <tf_topic>zed/zed_node/tf</tf_topic>
     </plugin>
@@ -763,5 +770,5 @@
       <static_update_frequency>1</static_update_frequency>
     </plugin>
   </gazebo>
-
+ 
 </robot>
