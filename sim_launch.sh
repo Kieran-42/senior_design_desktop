@@ -1,9 +1,15 @@
 #!/bin/bash
 
 # Main launch script for urdf_color simulation with SLAM and Teleop
-# Usage: ./sim_launch.sh
+# Usage:
+#   ./sim_launch.sh
+#   ./sim_launch.sh <world_path> [world_name] [gz_resource_path]
 
 SESSION="urdf_sim"
+WORLD_PATH="$1"
+WORLD_NAME="$2"
+GZ_RESOURCE_PATH_ARG="$3"
+PATCHED_WORLD_PATH=""
 
 # Kill existing session and processes to ensure a clean clock and environment
 tmux kill-session -t $SESSION 2>/dev/null
@@ -19,13 +25,62 @@ if [ ! -d "install" ]; then
     exit 1
 fi
 
+WORKSPACE_ROOT="$(pwd)"
+DEFAULT_GZ_RESOURCE_PATH="$WORKSPACE_ROOT/install/urdf_color/share"
+
+if [ -n "$WORLD_PATH" ]; then
+    if [ ! -f "$WORLD_PATH" ]; then
+        echo "Error: world file not found: $WORLD_PATH"
+        exit 1
+    fi
+
+    WORLD_PATH="$(readlink -f "$WORLD_PATH")"
+    WORLD_RESOURCE_DIR="$(dirname "$WORLD_PATH")"
+    WORLD_PACKAGE_DIR="$(dirname "$WORLD_RESOURCE_DIR")"
+    WORLD_MODELS_DIR="$WORLD_PACKAGE_DIR/models"
+    DETECTED_WORLD_NAME="$(sed -n "s/.*<world[[:space:]][^>]*name=['\"]\([^'\"]*\)['\"].*/\1/p" "$WORLD_PATH" | head -n 1)"
+    if ! grep -q "gz-sim-sensors-system" "$WORLD_PATH"; then
+        PATCHED_WORLD_PATH="/tmp/urdf_color_$(basename "$WORLD_PATH").$$"
+        awk '
+            {
+                print
+                if (!inserted && $0 ~ /<world[[:space:]>]/) {
+                    print "    <plugin filename=\"gz-sim-physics-system\" name=\"gz::sim::systems::Physics\"/>"
+                    print "    <plugin filename=\"gz-sim-user-commands-system\" name=\"gz::sim::systems::UserCommands\"/>"
+                    print "    <plugin filename=\"gz-sim-scene-broadcaster-system\" name=\"gz::sim::systems::SceneBroadcaster\"/>"
+                    print "    <plugin filename=\"gz-sim-contact-system\" name=\"gz::sim::systems::Contact\"/>"
+                    print "    <plugin filename=\"gz-sim-sensors-system\" name=\"gz::sim::systems::Sensors\">"
+                    print "      <render_engine>ogre2</render_engine>"
+                    print "    </plugin>"
+                    print "    <plugin filename=\"gz-sim-imu-system\" name=\"gz::sim::systems::Imu\"/>"
+                    inserted = 1
+                }
+            }
+        ' "$WORLD_PATH" > "$PATCHED_WORLD_PATH"
+        WORLD_PATH="$PATCHED_WORLD_PATH"
+    fi
+
+    WORLD_NAME="${WORLD_NAME:-${DETECTED_WORLD_NAME:-default}}"
+    if [ -z "$GZ_RESOURCE_PATH_ARG" ]; then
+        GZ_RESOURCE_PATH_ARG="$WORLD_RESOURCE_DIR"
+        if [ -d "$WORLD_MODELS_DIR" ]; then
+            GZ_RESOURCE_PATH_ARG="$GZ_RESOURCE_PATH_ARG:$WORLD_MODELS_DIR"
+        fi
+    fi
+    GZ_RESOURCE_PATH_ARG="$DEFAULT_GZ_RESOURCE_PATH:$GZ_RESOURCE_PATH_ARG"
+    GAZEBO_LAUNCH_CMD="ros2 launch urdf_color gazebo.launch.py world:=$WORLD_PATH world_name:=$WORLD_NAME gz_resource_path:=$GZ_RESOURCE_PATH_ARG"
+else
+    WORLD_NAME="${WORLD_NAME:-robodog_world}"
+    GAZEBO_LAUNCH_CMD="ros2 launch urdf_color gazebo.launch.py world_name:=$WORLD_NAME"
+fi
+
 # Create a new tmux session, detached
 tmux new-session -d -s $SESSION
 
 # Window 0: Gazebo
 tmux rename-window -t $SESSION:0 'Gazebo'
 tmux send-keys -t $SESSION:0 "source /opt/ros/jazzy/setup.bash && source install/setup.bash" C-m
-tmux send-keys -t $SESSION:0 "ros2 launch urdf_color gazebo.launch.py" C-m
+tmux send-keys -t $SESSION:0 "$GAZEBO_LAUNCH_CMD" C-m
 
 # Wait for Gazebo to start (clock topic is a good indicator)
 echo "Waiting for Gazebo clock..."

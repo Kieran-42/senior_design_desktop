@@ -3,11 +3,13 @@ from launch import LaunchDescription
 from launch.actions import (
     IncludeLaunchDescription,
     SetEnvironmentVariable,
+    DeclareLaunchArgument,
+    RegisterEventHandler,
 )
+from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
-from launch.substitutions import Command, LaunchConfiguration
-from launch.actions import DeclareLaunchArgument
+from launch.substitutions import Command, LaunchConfiguration, TextSubstitution
 from ament_index_python.packages import get_package_share_directory
 
 
@@ -28,10 +30,33 @@ def generate_launch_description():
         'use_zed_localization', default_value='false',
         description='Whether to use ZED localization'
     )
+    world_arg = DeclareLaunchArgument(
+        'world',
+        default_value=os.path.join(pkg_share, 'worlds', 'robodog_world.sdf'),
+        description='Path to the Gazebo world/SDF file to launch'
+    )
+    world_name_arg = DeclareLaunchArgument(
+        'world_name',
+        default_value='robodog_world',
+        description='Name inside the selected world file, used for Gazebo world-scoped topics'
+    )
+    gz_resource_path_arg = DeclareLaunchArgument(
+        'gz_resource_path',
+        default_value=os.path.dirname(pkg_share),
+        description='Gazebo resource path for model:// includes'
+    )
 
     camera_name = LaunchConfiguration('camera_name')
     camera_model = LaunchConfiguration('camera_model')
     use_zed_localization = LaunchConfiguration('use_zed_localization')
+    world = LaunchConfiguration('world')
+    world_name = LaunchConfiguration('world_name')
+    gz_resource_path = LaunchConfiguration('gz_resource_path')
+    world_clock_topic = [
+        TextSubstitution(text='/world/'),
+        world_name,
+        TextSubstitution(text='/clock'),
+    ]
 
     # Process Xacro
     robot_description_content = Command([
@@ -40,9 +65,6 @@ def generate_launch_description():
         ' camera_model:=', camera_model,
         ' use_zed_localization:=', use_zed_localization,
     ])
-
-    # Also tell Gz where to look for model:// URIs (install/share parent)
-    gz_resource_path = os.path.dirname(pkg_share)
 
     # Robot State Publisher
     robot_state_publisher = Node(
@@ -56,7 +78,6 @@ def generate_launch_description():
     )
 
     # Launch Gazebo Harmonic (gz_sim)
-    world_file = os.path.join(pkg_share, 'worlds', 'robodog_world.sdf')
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -64,7 +85,7 @@ def generate_launch_description():
                 'launch', 'gz_sim.launch.py',
             )
         ),
-        launch_arguments={'gz_args': f'-r {world_file}'}.items(),
+        launch_arguments={'gz_args': ['-r ', world]}.items(),
     )
 
     # Spawn the robot in Gazebo
@@ -85,7 +106,11 @@ def generate_launch_description():
         executable='parameter_bridge',
         name='ros_gz_bridge',
         arguments=[
-            '/world/robodog_world/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
+            [
+                TextSubstitution(text='/world/'),
+                world_name,
+                TextSubstitution(text='/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'),
+            ],
             '/zed/zed_node/rgb/image_rect_color/image@sensor_msgs/msg/Image[gz.msgs.Image',
             '/zed/zed_node/rgb/image_rect_color/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
             '/zed/zed_node/rgb/image_rect_color/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
@@ -100,7 +125,7 @@ def generate_launch_description():
             '/model/urdf_color/pose@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V',
         ],
         remappings=[
-            ('/world/robodog_world/clock', '/clock'),
+            (world_clock_topic, '/clock'),
             ('/zed/zed_node/rgb/image_rect_color/image', '/zed/zed_node/rgb/image_rect_color'),
             ('/zed/zed_node/rgb/image_rect_color/depth_image', '/zed/zed_node/depth/depth_registered'),
             ('/zed/zed_node/rgb/image_rect_color/points', '/zed/zed_node/point_cloud/cloud_registered'),
@@ -146,17 +171,42 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', gz_resource_path),
         camera_name_arg,
         camera_model_arg,
         use_zed_localization_arg,
+        world_arg,
+        world_name_arg,
+        gz_resource_path_arg,
+        SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', gz_resource_path),
+        SetEnvironmentVariable('GZ_SIM_MODEL_PATH', gz_resource_path),
+        SetEnvironmentVariable('GAZEBO_MODEL_PATH', gz_resource_path),
         robot_state_publisher,
         gazebo,
         spawn_robot,
         bridge,
         joint_state_broadcaster,
-        front_right_leg,
-        front_left_leg,
-        back_right_leg,
-        back_left_leg,
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=joint_state_broadcaster,
+                on_exit=[front_right_leg],
+            )
+        ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=front_right_leg,
+                on_exit=[front_left_leg],
+            )
+        ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=front_left_leg,
+                on_exit=[back_right_leg],
+            )
+        ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=back_right_leg,
+                on_exit=[back_left_leg],
+            )
+        ),
     ])
